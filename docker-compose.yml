@@ -1,0 +1,13 @@
+services:
+  app:
+    container_name: app
+    image: node:lts
+    working_dir: /var/www/html/app/
+    entrypoint: /bin/bash
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/var/www/html
+    tty: true
