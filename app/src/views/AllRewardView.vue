@@ -13,7 +13,7 @@
       <div v-if="selected" class="p-4 m-4">
         <p>slected:</p>
         <p class="text-xl">
-          {{selected.name}}
+          {{ selected.name }}
         </p>
       </div>
     </div>
@@ -21,29 +21,23 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       selected: null,
-      rewards: [
-        {
-          id: 0,
-          name: "Reward 1",
-        },
-        {
-          id: 1,
-          name: "Reward 2",
-        },
-        {
-          id: 2,
-          name: "Reward 3",
-        },
-        {
-          id: 3,
-          name: "Reward 4",
-        },
-      ],
+      rewards: [],
     };
+  },
+  async mounted() {
+    const url = "http://localhost/api/rewards";
+    // const response = axios.get(url).then((val) => {
+    //   this.rewards = val.data.data;
+    //   console.log(val)
+    // });
+    const response = await axios.get(url);
+    this.rewards = response.data.data;
   },
   methods: {
     selectReward(reward) {
