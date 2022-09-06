@@ -20,6 +20,7 @@ export default {
     <div
       v-for="currency in info"
       class="mt-4 ml-4 text-xl"
+      :key="currency"
     >
       {{ currency.description }}:
       <span class="ml-4 italic">
