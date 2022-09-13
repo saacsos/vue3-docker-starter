@@ -3,22 +3,36 @@
     <h1>Reward</h1>
     <div>
       <div v-if="error">
-        <p>{{error}}</p>
+        <p>{{ error }}</p>
       </div>
-      <div
-        v-for="reward in rewards"
-        :key="reward.id"
-        class="p-4 m-4 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200"
-        v-on:click="selectReward(reward)"
-      >
-        <p>{{ reward.name }}</p>
-      </div>
-      <div v-if="selected" class="p-4 m-4">
-        <p>slected:</p>
-        <p class="text-xl">
-          {{ selected.name }}
-        </p>
-      </div>
+      <TransitionGroup>
+        <div
+          v-for="reward in rewards"
+          :key="reward.id"
+          class="
+            p-4
+            m-4
+            rounded-full
+            bg-slate-50
+            hover:bg-slate-100
+            border border-slate-200
+          "
+          v-on:click="selectReward(reward)"
+        >
+          <p>{{ reward.name }}</p>
+          <RouterLink :to="`/rewards/${reward.id}`">
+            <div>
+              learn more
+            </div>
+          </RouterLink>
+        </div>
+      </TransitionGroup>
+        <div v-if="selected" class="p-4 m-4">
+          <p>slected:</p>
+          <p class="text-xl">
+            {{ selected.name }}
+          </p>
+        </div>
     </div>
   </div>
 </template>
@@ -31,7 +45,7 @@ export default {
     return {
       selected: null,
       rewards: [],
-      error: null
+      error: null,
     };
   },
   async mounted() {
@@ -44,7 +58,7 @@ export default {
       const response = await axios.get(url);
       this.rewards = response.data.data;
     } catch (e) {
-      this.error = e.message
+      this.error = e.message;
     }
   },
   methods: {
@@ -58,3 +72,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
