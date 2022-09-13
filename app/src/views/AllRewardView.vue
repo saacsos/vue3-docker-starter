@@ -2,10 +2,13 @@
   <div class="max-w-3xl mx-auto">
     <h1>Reward</h1>
     <div>
+      <div v-if="error">
+        <p>{{error}}</p>
+      </div>
       <div
         v-for="reward in rewards"
         :key="reward.id"
-        class="p-4 m-4 rounded-full bg-slate-50 hover:bg-slate-100"
+        class="p-4 m-4 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200"
         v-on:click="selectReward(reward)"
       >
         <p>{{ reward.name }}</p>
@@ -28,6 +31,7 @@ export default {
     return {
       selected: null,
       rewards: [],
+      error: null
     };
   },
   async mounted() {
@@ -36,8 +40,12 @@ export default {
     //   this.rewards = val.data.data;
     //   console.log(val)
     // });
-    const response = await axios.get(url);
-    this.rewards = response.data.data;
+    try {
+      const response = await axios.get(url);
+      this.rewards = response.data.data;
+    } catch (e) {
+      this.error = e.message
+    }
   },
   methods: {
     selectReward(reward) {
