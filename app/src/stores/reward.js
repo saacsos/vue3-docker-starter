@@ -1,30 +1,37 @@
-import { defineStore } from "pinia";
-import { rewardAPI } from "../service/api";
+import { defineStore } from 'pinia'
+import { rewardAPI } from '@/services/api.js'
 
 export const useRewardStore = defineStore({
-  id: 'rewards',
+  id: 'reward',
   state: () => {
-    rewards: []
+    return {
+      rewards: []
+    }
   },
   getters: {
     getRewards: (state) => state.rewards,
+
+    sortByPoint (state) {
+      const sortable = [...state.rewards]
+      return sortable.sort((a, b) => {
+        return a.point - b.point
+      })
+    },
+
     sortByName (state) {
       const sortable = [...state.rewards]
-      return sortable.sort(
-        (a, b) => a.name.localeCompare(b.name))
-    },
-    sortByPoint (state) {
-      return state.rewards.sort((a, b) => a.point - b.point)
+      return sortable.sort((a, b) => {
+        return (a.name).localeCompare(b.name)
+      })
     }
   },
   actions: {
     async fetch () {
       this.rewards = await rewardAPI.getAll()
     },
+
     async add (reward) {
-      const response = await rewardAPI.saveNew(
-        reward
-      )
+      const response = await rewardAPI.saveNew(reward)
       if (response.success) {
         this.rewards.push({
           ...reward
@@ -33,8 +40,10 @@ export const useRewardStore = defineStore({
       }
       return false
     },
+
     delete (id) {
-      this.rewards = this.rewards.filter(reward => reward != id)
+      this.rewards = this.rewards.filter(reward => reward.id != id)
     }
   }
 })
+

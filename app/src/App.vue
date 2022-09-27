@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import Profile from '@/components/profile/Profile.vue'
 </script>
 
 <template>
@@ -9,11 +10,13 @@ import HelloWorld from './components/HelloWorld.vue'
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
+      
 
-      <nav>
+      <nav class="flex">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/rewards">Rewards</RouterLink>
+        <Profile></Profile>
       </nav>
     </div>
   </header>
@@ -28,7 +31,7 @@ header {
 }
 
 .logo {
-  display: block;
+  display: none;
   margin: 0 auto 2rem;
 }
 
@@ -66,12 +69,7 @@ nav a:first-of-type {
 
   .logo {
     margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+    display: block
   }
 
   nav {

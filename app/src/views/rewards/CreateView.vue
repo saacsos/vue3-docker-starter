@@ -39,11 +39,12 @@
 
 <script>
 import RewardCard from '@/components/rewards/RewardCard.vue'
-import { useRewardStore } from '../../stores/reward'
+import { useRewardStore } from '@/stores/reward.js'
+
 export default {
   setup() {
-    const rewardStore = useRewardStore();
-    return { rewardStore }
+    const reward_store = useRewardStore()
+    return { reward_store }
   },
   data() {
     return {
@@ -51,7 +52,8 @@ export default {
         name: '',
         detail: '',
         point: 1,
-        total_amount: 1
+        total_amount: 1,
+        error: null
       } 
     }
   }, 
@@ -60,18 +62,15 @@ export default {
   },
   methods: {
     async saveNewReward() {
-      console.log('clicked')
       try {
-        this.reward.balance = this.reward.total_amount
-        this.reward.is_active = true
-        
-        const reward_id = await this.rewardStore.add(this.reward)
-
+        this.error = null
+        const reward_id = await this.reward_store.add(this.reward)
         if (reward_id) {
           this.$router.push(`/rewards/${reward_id}`)
         }
       } catch(error) {
         console.log(error)
+        this.error = error.message
       }
     }
   }

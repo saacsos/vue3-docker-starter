@@ -11,3 +11,20 @@ services:
     volumes:
       - ./:/var/www/html
     tty: true
+    networks:
+      - sail
+  web:
+    image: nginx
+    ports:
+      - 8080:80
+    links:
+      - app
+    volumes:
+      - ./app/dist:/var/www/html
+      - ./docker/web/site.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - sail
+  
+networks:
+  sail:
+    driver: bridge

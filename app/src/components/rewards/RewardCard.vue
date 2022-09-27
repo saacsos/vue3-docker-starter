@@ -10,36 +10,34 @@
     <div class="">
       <slot></slot>
     </div>
-    
-    <router-link v-if="url != ''" :to="url">Detail</router-link>
-    
-    <span class="underline " 
-          :class="url == '' ? 'cursor-auto': 'cursor-pointer my-color'"
-          @click="onClickButton()">Detail</span>
-    <button @click="onClickButton()"
-     class="p-2 bg-blue-200 border-2 border-blue-400 rounded-xl">
-      Redeem
-    </button>
 
-    <button @click="onClickLike()"
-     class="p-2 bg-yellow-200 border-2 border-blue-400 rounded-xl">
-      {{ likeCount }} Likes
-    </button>
+    <div class="grid grid-cols-2">
+      <button @click="onClickButton()"
+      class="p-2 mx-4 bg-blue-200 border-2 border-blue-400 rounded-xl">
+        Redeem
+      </button>
+      <div class="grid grid-cols-2">
+        <button @click="onClickLike()"
+        class="p-2 mx-4 bg-yellow-200 border-2 border-blue-400 rounded-xl">
+          {{ likeCount }} Likes
+        </button>
 
-    <button @click="onClickCounter()"
-     class="p-2 bg-yellow-200 border-2 border-blue-400 rounded-xl">
-      {{ counterStore.counter }} Counts
-    </button>
+        <button @click="onClickCounter()"
+        class="p-2 mx-8 bg-green-200 border-2 border-blue-400 rounded-xl">
+          {{ counter_store.counter }} |
+          {{ counter_store.doubleCount }}
+        </button> 
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { useCounterStore } from '../../stores/counter';
-
+import { useCounterStore } from '@/stores/counter.js'
 export default {
   setup() {
-    const counterStore = useCounterStore()
-    return { counterStore }
+    const counter_store = useCounterStore()
+    return { counter_store }
   },
   data() {
     return {
@@ -57,14 +55,13 @@ export default {
     onClickLike() {
       this.likeCount++;
     },
+    onClickCounter() {
+      this.counter_store.increment()
+    },
     onClickButton() {
       if (this.url != '') {
         this.$router.push(this.url)
       }
-    },
-    onClickCounter() {
-      this.counterStore.increment()
-      // this.counterStore.counter++
     }
   }
 }
