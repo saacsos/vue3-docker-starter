@@ -48,6 +48,11 @@ const router = createRouter({
       name: 'logout',
       component: () => import('@/views/LogoutView.vue')
     },
+    {
+      path: '/socket',
+      name: 'socket',
+      component: () => import('@/views/TestSocketView.vue')
+    },
   ]
 })
 

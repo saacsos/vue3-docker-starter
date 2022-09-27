@@ -24,6 +24,20 @@ services:
       - ./docker/web/site.conf:/etc/nginx/conf.d/default.conf
     networks:
       - sail
+
+  localtunnel:
+    image: efrecon/localtunnel
+    restart: on-failure
+    command:
+        --local-host web --port 80 --subdomain ${LOCALTUNNEL_SUBDOMAIN}
+    links:
+        - web
+        - app
+    depends_on:
+        - web
+        - app
+    networks:
+        - sail
   
 networks:
   sail:
